@@ -1,24 +1,19 @@
 import uvicorn
-from fastapi import FastAPI, Form
-from fastapi.responses import FileResponse
+from fastapi import FastAPI
+from models import User
 
 app = FastAPI()
 
 
-@app.get("/", response_class=FileResponse)
-def root_html():
-    return "index.html"
 
-
-@app.post("/calculate")
-def calculate(num1: int = Form(ge=0, lt=111), num2: int = Form(ge=0, lt=111)):
-    print("num1 =", num1, "num2 =", num2)
-    return {"result": num1 + num2}
-
-
-@app.get("/calculate", response_class=FileResponse)
-def calc_form():
-    return "index.html"
+@app.get("/users")
+def user():
+    second_user_data = {
+        "id": 1,
+        "name": "John Doe"
+    }
+    my_second_user: User = User(**second_user_data)
+    return my_second_user
 
 if __name__ == "__main__":
     uvicorn.run("main:app", reload=True)
