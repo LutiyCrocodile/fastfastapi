@@ -1,19 +1,16 @@
 import uvicorn
 from fastapi import FastAPI
-from models import User
+from models import UserAge
 
 app = FastAPI()
 
 
+@app.post('/user')
+async def show_user(user: UserAge):
+    return {"name": user.name,
+            "age": user.age,
+            "is_adult": user.age >= 18}
 
-@app.get("/users")
-def user():
-    second_user_data = {
-        "id": 1,
-        "name": "John Doe"
-    }
-    my_second_user: User = User(**second_user_data)
-    return my_second_user
 
 if __name__ == "__main__":
     uvicorn.run("main:app", reload=True)
